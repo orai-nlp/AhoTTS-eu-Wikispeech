@@ -10,6 +10,6 @@ INSTALATION (in linux environments)
 FOLDERS:
 	libhtts: code of the library
 	tts: code of examples using the library
-	lib: where the library is stored
-	bin: where example binaries are installed
-	bin/data_tts: all the necessary data files for each language
+	data_tts: all the necessary data files for each language
+    lib: where the library will be stored
+    bin: where example binaries will be installed
