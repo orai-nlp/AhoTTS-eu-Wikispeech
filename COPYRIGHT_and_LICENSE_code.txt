@@ -1,7 +1,7 @@
 /******************************************************************************/
 /*/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*
 
-AhoTTS: A Text-To-Speech system for Basque* and Spanish*
+AhoTTS: A Text-To-Speech system for Basque*
 developed by Aholab Signal Processing Laboratory at the
 University of the Basque Country (UPV/EHU). Its acoustic engine is based on
 hts_engine' and it uses AhoCoder* as vocoder.
