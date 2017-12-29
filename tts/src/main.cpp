@@ -65,7 +65,7 @@ int main(int argc, char * argv[]){
 // READ INPUT ARGUMENTS
 
 	//define the input defaults arguments
-	KVStrList pro("InputFile=input.txt Lang=eu OutputFile=Output.wav DataPath=data_tts Speed=100 SetDur=n help=n");
+	KVStrList pro("InputFile=input.txt Lang=eu OutputFile=output.wav DataPath=data_tts Speed=100 SetDur=n help=n");
 	StrList files;
 
 	//define the type of each argument
@@ -76,7 +76,7 @@ int main(int argc, char * argv[]){
 
 	//Read the values of the input arguments
 	if (pro.bval("help")){
-		printf("usage: ./tts -InputFile=input.txt -Lang=eu -OutputFile=Output.wav -DataPath=data_tts -Speed=100\n");
+		printf("usage: ./tts -InputFile=input.txt -Lang=eu -OutputFile=output.wav -DataPath=data_tts -Speed=100\n");
 		return -1;
 	}
 	const char *input_file = pro.val("InputFile");
