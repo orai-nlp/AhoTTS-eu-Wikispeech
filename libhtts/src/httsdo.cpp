@@ -704,7 +704,8 @@ int HTTSDo::synthesize_do_next_sentence( const CHAR *lang, short **samples){
 		((HTS_U2W*)u2w)->pho2hts((UttPh*)u, labels_string, TRUE);	//convertimos a labels
 		//labels_string+=labels_string_tmp;
 		t2u->outack();
-		//	u = t2u->output(&flush);
+		// ELHUYAR azpikoa komentatu dugu, bestela azken esaldia ez zuen esaten
+		//u = t2u->output(&flush);
 		*samples=((HTS_U2W*)u2w)->xinput_labels(labels_string, &num_muestras);
 
 

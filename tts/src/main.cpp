@@ -172,9 +172,11 @@ int main(int argc, char * argv[]){
 			fseek(f1,0,SEEK_END);
 			tamanio= ftell(f1);
 			rewind(f1);
+			// ELHUYAR bukaeran gauzak ez sartzeko
 			str=new char[tamanio+1];
 			fread(str,sizeof(char),tamanio,f1);
-                        str[tamanio]='\0';
+			// ELHUYAR bukaeran gauzak ez sartzeko
+			str[tamanio]=0;
 			fclose(f1);
 		}else {
 			fprintf(stderr,"ERROR: Can't open the input file %s\n",input_file);

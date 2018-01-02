@@ -193,8 +193,11 @@ int main (int argc, char* argv[])
 						fseek(fp,0,SEEK_END);
 						tamanio=ftell(fp);
 						rewind(fp);
-						str=new char [tamanio];
+						// ELHUYAR bukaeran gauzak ez sartzeko
+						str=new char [tamanio+1];
 						fread(str,1,tamanio,fp);
+						// ELHUYAR bukaeran gauzak ez sartzeko
+						str[tamanio]=0;
 						fclose(fp);
 					}else{
 						fprintf(stderr,"Problem with text file\n");
