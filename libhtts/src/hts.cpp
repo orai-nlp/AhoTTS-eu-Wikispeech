@@ -723,7 +723,8 @@ BOOL HTS_U2W::xinput (Utt *u) {
 /************************************************************************************************************************/
 
 /************************************************************************************************************************/
-short int * HTS_U2W::xinput_labels(String labels, int  *num_muestras){
+//ELHUYAR included PhoFile
+short int * HTS_U2W::xinput_labels(String labels, int  *num_muestras, const CHAR *phofile){
 	//fprintf(stderr,"HTS_U2W::xinput()\n");
 	if (!HTS_ENGINE_INITIALIZED ){
 		 /* initialize (stream[0] = spectrum , stream[1] = lf0) */
@@ -843,6 +844,30 @@ short int * HTS_U2W::xinput_labels(String labels, int  *num_muestras){
 		wav_buffer[ i ] = temp ;
 		//fprintf(stderr,"%f ", wav_buf[i]);
 	}
+	// ELHUYAR extract duration of labels
+	if(strcmp(phofile,"null")){
+		FILE* fpho;
+		fpho=fopen(phofile,"w");
+		const int nstate = HTS_ModelSet_get_nstate(&(engine.ms));
+		const double rate = engine.global.fperiod * 1e+3 / engine.global.sampling_rate;
+		float duration=0;
+		long state;
+		for (i = 0, state = 0; i < HTS_Label_get_size(&(engine.label)); i++) {
+		  int j;
+		  for (j = 0, duration = 0; j < nstate; j++)
+		    duration += HTS_SStreamSet_get_duration(&(engine.sss), state++);
+		  char *tmp;
+		  tmp = HTS_Label_get_string(&(engine.label),i);
+		  char fonema[4];
+		  //find the end of the phone
+		  tmp[ strchr(tmp, '+') - tmp] = '\0';
+		  strcpy(fonema, strchr(tmp, '-' ) + 1);
+		  fprintf(fpho, "%f  %s\n", duration * rate, fonema);
+		}
+		fclose(fpho);
+	}
+
+
 	//fprintf(stderr,"\n");
 	//wav_nready=HTS_GStreamSet_get_total_nsample(&(engine.gss)) ;
     //wav_nused=HTS_GStreamSet_get_total_nsample(&(engine.gss)) ;

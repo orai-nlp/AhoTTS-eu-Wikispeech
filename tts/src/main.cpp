@@ -65,14 +65,16 @@ int main(int argc, char * argv[]){
 // READ INPUT ARGUMENTS
 
 	//define the input defaults arguments
-	KVStrList pro("InputFile=input.txt Lang=eu OutputFile=output.wav DataPath=data_tts Speed=100 SetDur=n help=n");
+	//ELHUYAR included PhoFile
+	KVStrList pro("InputFile=input.txt Lang=eu OutputFile=output.wav PhoFile=null DataPath=data_tts Speed=100 SetDur=n help=n");
 	StrList files;
 
 	//define the type of each argument
 	//InputFile=s --> string
 	//Lang=selection
+	//ELHUYAR included PhoFile
 	clargs2props(argc, argv, pro, files,
-			"InputFile=s Lang={eu} OutputFile=s DataPath=s Speed=s help=b SetDur=b");
+			"InputFile=s Lang={eu} OutputFile=s PhoFile=s DataPath=s Speed=s help=b SetDur=b");
 
 	//Read the values of the input arguments
 	if (pro.bval("help")){
@@ -81,6 +83,8 @@ int main(int argc, char * argv[]){
 	}
 	const char *input_file = pro.val("InputFile");
 	const char *output_file = pro.val("OutputFile");
+	//ELHUYAR included PhoFile
+	const char *pho_file = pro.val("PhoFile");
 	const char *lang = pro.val("Lang");
 	const char *speed=pro.val("Speed");
 	const char *data_path=pro.val("DataPath");
@@ -93,6 +97,8 @@ int main(int argc, char * argv[]){
 	HTTS *tts = new HTTS;
 	tts->set("PthModel", "Pth1"); //not used but must be defined
 	tts->set("Method", "HTS"); //HTS -> HMM-based method
+	//ELHUYAR included PhoFile
+	tts->set("PhoFile", pho_file); //HTS -> HMM-based method
 ///////////////////////////////////////////
 
 ///////////////////////////////////////////
@@ -158,6 +164,12 @@ int main(int argc, char * argv[]){
 ///////////////////////////////////////////
 // CREATE AN OUTPUT WAV FILE
 
+	//ELHUYAR included PhoFile
+	if(strcmp(pho_file,"null")){
+		FILE* fpho;
+		fpho=fopen(pho_file,"w");
+		fclose(fpho);
+	}
 	CAudioFile fout;
 	fout.open(output_file,"w", "SRate=16000.0 NChan=1 FFormat=Wav"); //Mono, 16kHz
 ///////////////////////////////////////////

@@ -161,6 +161,9 @@ HTTSDo::HTTSDo( VOID )
 	smethod = "HTS";
 #endif
 
+	//ELHUYAR included PhoFile
+	phofile="null";
+
 	hdicdbname = "hdic";
 
 
@@ -537,6 +540,16 @@ BOOL HTTSDo::set( const CHAR* param, const CHAR* val )
 		return TRUE;
 	}
 
+	//ELHUYAR included PhoFile
+	if (!strcmp(param,"PhoFile")) {
+		if (created) return FALSE;
+		phofile= val;
+#ifdef DEBUG_SHELL
+		htts_warn("HTTSDo::set - PhoFile value captured [%s]", phofile.chars());
+#endif
+		return TRUE;
+	}
+
 	if (!strcmp(param,"PthModel")) {
 		if (created) return FALSE;
 		modelpth= val;
@@ -660,6 +673,8 @@ const CHAR* HTTSDo::get( const CHAR* param )
 	if (!strcmp(param,"DefEmo")) return emo;
 	if (!strcmp(param,"DefIntEmo")) return emoint;
 	if (!strcmp(param,"Method")) return smethod;
+	//ELHUYAR included PhoFile
+	if (!strcmp(param,"PhoFile")) return phofile;
 	if (!strcmp(param,"PthModel")) return lingp?lingp->get(param):(const CHAR *)modelpth;
 	if (!strcmp(param,"ProsDBName")) return lingp?lingp->get(param):(const CHAR *)dbpros;
 	if (!strcmp(param,"PowModel")) return lingp?lingp->get(param):(const CHAR *)modelpow;
@@ -706,7 +721,8 @@ int HTTSDo::synthesize_do_next_sentence( const CHAR *lang, short **samples){
 		t2u->outack();
 		// ELHUYAR azpikoa komentatu dugu, bestela azken esaldia ez zuen esaten
 		//u = t2u->output(&flush);
-		*samples=((HTS_U2W*)u2w)->xinput_labels(labels_string, &num_muestras);
+		//ELHUYAR included PhoFile
+		*samples=((HTS_U2W*)u2w)->xinput_labels(labels_string, &num_muestras, phofile);
 
 
 	}

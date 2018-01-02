@@ -205,6 +205,8 @@ int ServerConnection::ReadOptions()
 	strcpy(opciones.language,opaux.language);
 	strcpy(opciones.gender,opaux.gender);
 	strcpy(opciones.speed,opaux.speed);
+	//ELHUYAR included PhoFile
+	strcpy(opciones.pho_file,opaux.pho_file);
 	opciones.setdur=opaux.setdur;
 	//fprintf(stderr,"Idioma recibido %s, velocidad de lectura: %s\n",opciones.language,opciones.speed);
 	return aux;

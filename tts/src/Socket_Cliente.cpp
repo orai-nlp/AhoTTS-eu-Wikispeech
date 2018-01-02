@@ -243,6 +243,8 @@ void ClientConnection::WriteOptions(const Options op)
 	strcpy(opciones.speed,op.speed);
 	strcpy(opciones.gender,op.gender);
 //	strcpy(opciones.data_path,op.data_path);
+	//ELHUYAR included PhoFile
+	strcpy(opciones.pho_file,op.pho_file);
 	opciones.setdur=op.setdur;
 }
 
@@ -256,6 +258,8 @@ ClientConnection::ClientConnection()
 	strcpy(opciones.language,"eu");
 	strcpy(opciones.speed,"100");
 	strcpy(opciones.gender,"F");
+	//ELHUYAR included PhoFile
+	strcpy(opciones.pho_file,"null");
 	opciones.setdur=0;
 }
 
@@ -264,6 +268,8 @@ ClientConnection::ClientConnection(const Options op)
 	strcpy(opciones.language,op.language);
 	strcpy(opciones.gender,op.gender);
 //	strcpy(opciones.data_path,op.data_path);
+	//ELHUYAR included PhoFile
+	strcpy(opciones.pho_file,op.pho_file);
 	int f;
 	sscanf(op.speed,"%d",&f);
 	if(f<SPEED_MIN||f>SPEED_MAX){

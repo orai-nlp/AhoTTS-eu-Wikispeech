@@ -144,6 +144,11 @@ int main (int argc, char* argv[])
 					tts->set("HDicDBName",tmp_string_dic);}
 				tts->set("PthModel", "Pth1");
 				tts->set("Method", "HTS");
+
+				//ELHUYAR included PhoFile
+				char* pho_file=servidor->ObtainPhoFile();
+				tts->set("PhoFile", pho_file);
+
 				if (!tts->create()) {
 					delete tts;
 					return 0;

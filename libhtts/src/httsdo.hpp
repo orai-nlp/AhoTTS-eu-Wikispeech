@@ -163,6 +163,8 @@ private:
 	String emo;
 	String emoint;
 	String smethod;
+	//ELHUYAR included PhoFile
+	String phofile;
 	String modelpth;
 	String dbpros;
 	String modelpow;
