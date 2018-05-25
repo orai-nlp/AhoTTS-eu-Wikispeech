@@ -112,8 +112,9 @@ typedef struct{
 	char gender [4];
 	char speed [4];
 	char data_path[1024];
-	//ELHUYAR included PhoFile
+	//ELHUYAR included PhoFile and WordFile
     char pho_file[1024];
+    char wrd_file[1024];
 	bool setdur;
 } Options;
 

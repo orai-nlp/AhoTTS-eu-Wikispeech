@@ -161,8 +161,9 @@ HTTSDo::HTTSDo( VOID )
 	smethod = "HTS";
 #endif
 
-	//ELHUYAR included PhoFile
+	//ELHUYAR included PhoFile and WordFile
 	phofile="null";
+	wrdfile="null";
 
 	hdicdbname = "hdic";
 
@@ -540,12 +541,20 @@ BOOL HTTSDo::set( const CHAR* param, const CHAR* val )
 		return TRUE;
 	}
 
-	//ELHUYAR included PhoFile
+	//ELHUYAR included PhoFile and WordFile
 	if (!strcmp(param,"PhoFile")) {
 		if (created) return FALSE;
 		phofile= val;
 #ifdef DEBUG_SHELL
 		htts_warn("HTTSDo::set - PhoFile value captured [%s]", phofile.chars());
+#endif
+		return TRUE;
+	}
+	if (!strcmp(param,"WordFile")) {
+		if (created) return FALSE;
+		wrdfile= val;
+#ifdef DEBUG_SHELL
+		htts_warn("HTTSDo::set - WordFile value captured [%s]", wrdfile.chars());
 #endif
 		return TRUE;
 	}
@@ -673,8 +682,9 @@ const CHAR* HTTSDo::get( const CHAR* param )
 	if (!strcmp(param,"DefEmo")) return emo;
 	if (!strcmp(param,"DefIntEmo")) return emoint;
 	if (!strcmp(param,"Method")) return smethod;
-	//ELHUYAR included PhoFile
+	//ELHUYAR included PhoFile and WordFile
 	if (!strcmp(param,"PhoFile")) return phofile;
+	if (!strcmp(param,"WordFile")) return wrdfile;
 	if (!strcmp(param,"PthModel")) return lingp?lingp->get(param):(const CHAR *)modelpth;
 	if (!strcmp(param,"ProsDBName")) return lingp?lingp->get(param):(const CHAR *)dbpros;
 	if (!strcmp(param,"PowModel")) return lingp?lingp->get(param):(const CHAR *)modelpow;
@@ -704,7 +714,8 @@ const CHAR* HTTSDo::get( const CHAR* param )
 /**********************************************************/
 //inaki
 //devuelve número de muestras sintetizadas y las almacena en short **samples
-int HTTSDo::synthesize_do_next_sentence( const CHAR *lang, short **samples){
+// ELHUYAR included cumulative duration for multi-sentence sentences
+int HTTSDo::synthesize_do_next_sentence( const CHAR *lang, short **samples, float &cumulative_duration){
 	String labels_string="";
 	int num_muestras=0;
 	Utt* u=NULL;
@@ -718,11 +729,33 @@ int HTTSDo::synthesize_do_next_sentence( const CHAR *lang, short **samples){
 		//String labels_string_tmp;
 		((HTS_U2W*)u2w)->pho2hts((UttPh*)u, labels_string, TRUE);	//convertimos a labels
 		//labels_string+=labels_string_tmp;
+		//ELHUYAR calculate word normalization
+		Array normalized_words;
+		initArray(&normalized_words);
+		//if (cumulative_duration==0)
+		//{
+			insertArray(&normalized_words,0);
+		//}
+		UttPh* utt_ph=(UttPh*)u;
+		int word_index=0;
+		int original_word_index=0;
+		Lix p;
+		for(p=utt_ph->wordFirst();p!=0;p=utt_ph->wordNext(p))
+		{
+			INT tnor_type=utt_ph->cell(p).getTNor();
+			word_index++;
+			if (tnor_type!=UTYPENOR_UNKNOWN)
+			{
+				original_word_index++;
+			}
+			insertArray(&normalized_words,original_word_index);
+		}
 		t2u->outack();
 		// ELHUYAR azpikoa komentatu dugu, bestela azken esaldia ez zuen esaten
 		//u = t2u->output(&flush);
-		//ELHUYAR included PhoFile
-		*samples=((HTS_U2W*)u2w)->xinput_labels(labels_string, &num_muestras, phofile);
+		//ELHUYAR included PhoFile and WordFile and normalized_words
+		*samples=((HTS_U2W*)u2w)->xinput_labels(labels_string, &num_muestras, phofile, wrdfile, &normalized_words, cumulative_duration);
+		freeArray(&normalized_words);
 
 
 	}

@@ -133,7 +133,8 @@ public:
 	/************/
 	//inaki
 	INT input_multilingual( const CHAR * str, const CHAR *lang , const CHAR *data_path, BOOL InputIsFile = FALSE );
-	int output_multilingual(const CHAR *lang, short **samples);
+	// ELHUYAR included cumulative duration for multi-sentence sentences
+	int output_multilingual(const CHAR *lang, short **samples, float &cumulative_duration);
 	//const DOUBLE * output_multilingual();
 	//BOOL outack_multilingual();
 	/***********/

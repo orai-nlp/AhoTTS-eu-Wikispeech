@@ -211,7 +211,8 @@ public:
   ~HTS_U2W ( );
    virtual BOOL create (const char * lang);
 	//FUNCIONES
-  short * xinput_labels (String labels, int * num_samples);
+  // ELHUYAR included PhoFile and WordFile and normalized_words and cumulative_duration
+  short * xinput_labels (String labels, int * num_samples, const CHAR *phofile, const CHAR *wrdfile, Array *normalized_words, float &cumulative_duration);
   void pho2hts(UttPh *u, String &labels, BOOL setdur); //devuelve la salida en labels
    virtual BOOL set (const CHAR * param, const CHAR* val);
   const CHAR* get (const CHAR * param);

@@ -66,20 +66,21 @@ void usage (void);
 int main (int argc, char* argv[])
 {
 	
-	//ELHUYAR included PhoFile
-	KVStrList pro("InputFile=input.txt Lang=eu OutputFile=output.wav PhoFile=null Speed=100 IP=NULL Port=0 SetDur=n");
+	//ELHUYAR included PhoFile and WordFile
+	KVStrList pro("InputFile=input.txt Lang=eu OutputFile=output.wav PhoFile=null WordFile=null Speed=100 IP=NULL Port=0 SetDur=n");
 	StrList files;
 
-	//ELHUYAR included PhoFile
+	//ELHUYAR included PhoFile and WordFile
 	clargs2props(argc, argv, pro, files,
-			"InputFile=s Lang={eu} OutputFile=s PhoFile=s Speed=s IP=s Port=i SetDur=b");
+			"InputFile=s Lang={eu} OutputFile=s PhoFile=s WordFile=s Speed=s IP=s Port=i SetDur=b");
 	
 	
 	const char *lang = pro.val("Lang");
 	const char *inputfile = pro.val("InputFile");
 	const char *outputfile = pro.val("OutputFile");
-	//ELHUYAR included PhoFile
+	//ELHUYAR included PhoFile and WordFile
 	const char *pho_file = pro.val("PhoFile");
+	const char *wrd_file = pro.val("WordFile");
 	const char *speed = pro.val("Speed");
 	//const char *gender = pro.val("Gender");
 	const char *ip=pro.val("IP");
@@ -102,8 +103,9 @@ int main (int argc, char* argv[])
 	strcpy(op.language,lang);
 	strcpy(op.speed,speed);
 	//strcpy(op.gender,gender);
-	//ELHUYAR included PhoFile
+	//ELHUYAR included PhoFile and WordFile
 	strcpy(op.pho_file,pho_file);
+	strcpy(op.wrd_file,wrd_file);
 	op.setdur=setdur;
 	
 	ClientConnection *cliente = new ClientConnection (op);

@@ -145,9 +145,11 @@ int main (int argc, char* argv[])
 				tts->set("PthModel", "Pth1");
 				tts->set("Method", "HTS");
 
-				//ELHUYAR included PhoFile
+				//ELHUYAR included PhoFile and WordFile
 				char* pho_file=servidor->ObtainPhoFile();
 				tts->set("PhoFile", pho_file);
+				char* wrd_file=servidor->ObtainWordFile();
+				tts->set("WordFile", wrd_file);
 
 				if (!tts->create()) {
 					delete tts;
@@ -186,6 +188,19 @@ int main (int argc, char* argv[])
 
 				//fprintf(stderr,"Sintetizando...");
 				char *str;
+
+				//ELHUYAR included PhoFile and Wordfile
+				if(strcmp(pho_file,"null")){
+					FILE* fpho;
+					fpho=fopen(pho_file,"w");
+					fclose(fpho);
+				}
+				if(strcmp(wrd_file,"null")){
+					FILE* fwrd;
+					fwrd=fopen(wrd_file,"w");
+					fclose(fwrd);
+				}
+
 				//abrir fichero wav de salida
 				CAudioFile fout;
 				fout.open(archivowav,"w", "SRate=16000.0 NChan=1 FFormat=Wav");
@@ -211,7 +226,9 @@ int main (int argc, char* argv[])
 					if(tts->input_multilingual(str, lang, data_path, FALSE)){
 						short *samples;
 						int len=0;
-						while((len = tts->output_multilingual(lang, &samples)) != 0){
+						// ELHUYAR included cumulative duration for multi-sentence sentences
+						float cumulative_duration=0;
+						while((len = tts->output_multilingual(lang, &samples, cumulative_duration)) != 0){
 							fout.setBlk(samples, len);
 							free(samples);
 						}

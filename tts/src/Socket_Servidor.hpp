@@ -97,8 +97,9 @@ class ServerConnection : public Connection{
 		char* ObtainLanguage(void){return opciones.language;}
 		char* ObtainSpeed(void){return opciones.speed;}
 		char* ObtainGender(void){return opciones.gender;}
-		//ELHUYAR included PhoFile
+		//ELHUYAR included PhoFile and WordFile
 		char* ObtainPhoFile(void){return opciones.pho_file;}
+		char* ObtainWordFile(void){return opciones.wrd_file;}
 		bool ObtainSetDur(void){return opciones.setdur;}
 	private:
 		Options opciones;

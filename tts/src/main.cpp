@@ -65,16 +65,16 @@ int main(int argc, char * argv[]){
 // READ INPUT ARGUMENTS
 
 	//define the input defaults arguments
-	//ELHUYAR included PhoFile
-	KVStrList pro("InputFile=input.txt Lang=eu OutputFile=output.wav PhoFile=null DataPath=data_tts Speed=100 SetDur=n help=n");
+	//ELHUYAR included PhoFile and WordFile
+	KVStrList pro("InputFile=input.txt Lang=eu OutputFile=output.wav PhoFile=null WordFile=null DataPath=data_tts Speed=100 SetDur=n help=n");
 	StrList files;
 
 	//define the type of each argument
 	//InputFile=s --> string
 	//Lang=selection
-	//ELHUYAR included PhoFile
+	//ELHUYAR included PhoFile and WordFile
 	clargs2props(argc, argv, pro, files,
-			"InputFile=s Lang={eu} OutputFile=s PhoFile=s DataPath=s Speed=s help=b SetDur=b");
+			"InputFile=s Lang={eu} OutputFile=s PhoFile=s WordFile=s DataPath=s Speed=s help=b SetDur=b");
 
 	//Read the values of the input arguments
 	if (pro.bval("help")){
@@ -83,8 +83,9 @@ int main(int argc, char * argv[]){
 	}
 	const char *input_file = pro.val("InputFile");
 	const char *output_file = pro.val("OutputFile");
-	//ELHUYAR included PhoFile
+	//ELHUYAR included PhoFile and WordFile
 	const char *pho_file = pro.val("PhoFile");
+	const char *wrd_file = pro.val("WordFile");
 	const char *lang = pro.val("Lang");
 	const char *speed=pro.val("Speed");
 	const char *data_path=pro.val("DataPath");
@@ -97,8 +98,9 @@ int main(int argc, char * argv[]){
 	HTTS *tts = new HTTS;
 	tts->set("PthModel", "Pth1"); //not used but must be defined
 	tts->set("Method", "HTS"); //HTS -> HMM-based method
-	//ELHUYAR included PhoFile
+	//ELHUYAR included PhoFile and WordFile
 	tts->set("PhoFile", pho_file); //HTS -> HMM-based method
+	tts->set("WordFile", wrd_file); //HTS -> HMM-based method
 ///////////////////////////////////////////
 
 ///////////////////////////////////////////
@@ -164,11 +166,16 @@ int main(int argc, char * argv[]){
 ///////////////////////////////////////////
 // CREATE AN OUTPUT WAV FILE
 
-	//ELHUYAR included PhoFile
+	//ELHUYAR included PhoFile and Wordfile
 	if(strcmp(pho_file,"null")){
 		FILE* fpho;
 		fpho=fopen(pho_file,"w");
 		fclose(fpho);
+	}
+	if(strcmp(wrd_file,"null")){
+		FILE* fwrd;
+		fwrd=fopen(wrd_file,"w");
+		fclose(fwrd);
 	}
 	CAudioFile fout;
 	fout.open(output_file,"w", "SRate=16000.0 NChan=1 FFormat=Wav"); //Mono, 16kHz
@@ -200,7 +207,9 @@ int main(int argc, char * argv[]){
 			short *samples;
 			int len=0;
 			//PROCESS A SENTENCE FROM THE TEXT AND GET "len" samples
-			while((len = tts->output_multilingual(lang, &samples)) != 0){
+			// ELHUYAR included cumulative duration for multi-sentence sentences
+			float cumulative_duration=0;
+			while((len = tts->output_multilingual(lang, &samples, cumulative_duration)) != 0){
 				//samples are stored in the audio file, but could also be directed to the soundcard
 				fout.setBlk(samples, len);
 				free(samples);

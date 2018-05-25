@@ -111,6 +111,22 @@ extern "C"{
 //#include "str2win.h"
 //#include "aholib.hpp"
 #include "uti.h"
+
+
+//ELHUYAR dynamic integer array
+typedef struct {
+  int *array;
+  size_t size;
+} Array;
+void initArray(Array *a);
+void insertArray(Array *a, int element);
+void freeArray(Array *a);
+
+
+
+
+
+
 class HTS_U2W : public Utt2Wav {
 protected:
 	char *Language;
@@ -211,8 +227,8 @@ public:
   ~HTS_U2W ( );
    virtual BOOL create (const char * lang);
 	//FUNCIONES
-  // ELHUYAR included PhoFile
-  short * xinput_labels (String labels, int * num_samples, const CHAR *phofile);
+  // ELHUYAR included PhoFile and WordFile and normalized_words and cumulative_duration
+  short * xinput_labels (String labels, int * num_samples, const CHAR *phofile, const CHAR *wrdfile, Array *normalized_words, float &cumulative_duration);
   void pho2hts(UttPh *u, String &labels, BOOL setdur); //devuelve la salida en labels
    virtual BOOL set (const CHAR * param, const CHAR* val);
   const CHAR* get (const CHAR * param);

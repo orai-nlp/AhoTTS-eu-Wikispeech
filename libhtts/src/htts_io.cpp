@@ -248,8 +248,9 @@ BOOL HTTS::input_multilingual( const CHAR * str, const CHAR *lang , const CHAR *
     return data->synthesize_do_input( str, lang, InputIsFile, data_path);
 }
 
-int HTTS::output_multilingual(const char * lang, short **samples){
-		return data->synthesize_do_next_sentence(lang, samples);
+// ELHUYAR included cumulative duration for multi-sentence sentences
+int HTTS::output_multilingual(const char * lang, short **samples, float &cumulative_duration){
+		return data->synthesize_do_next_sentence(lang, samples, cumulative_duration);
 }
 
 
