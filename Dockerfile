@@ -7,6 +7,8 @@ RUN mkdir -p /wikispeech/bin
 WORKDIR "/wikispeech"
 
 ##################### INSTALL AhoTTS-eu-Wikispeech #####################
+RUN apt-get install -y cmake
+
 RUN git clone https://github.com/Elhuyar/AhoTTS-eu-Wikispeech.git
 
 WORKDIR "/wikispeech/AhoTTS-eu-Wikispeech"
