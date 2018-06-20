@@ -32,5 +32,6 @@ RUN cd /wikispeech/AhoTTS-eu-Wikispeech && git describe --tags --always >> $BUIL
 
 ## RUNTIME SETTINGS
 WORKDIR "/wikispeech/AhoTTS-eu-Wikispeech"
+EXPOSE 1200
 CMD bin/tts_server -IP=127.0.0.1 -Port=1200
 
