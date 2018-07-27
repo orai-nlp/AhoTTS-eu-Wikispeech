@@ -184,7 +184,7 @@ int main (int argc, char* argv[])
 
 
 				//Cambia el nombre de salida del archivo de audio a algo controlable (ej:fecha y hora más número aleatorio)
-			//	tts->set("ow",archivowav);
+				//	tts->set("ow",archivowav);
 
 				//fprintf(stderr,"Sintetizando...");
 				char *str;
@@ -249,6 +249,15 @@ int main (int argc, char* argv[])
 				//fd=fopen("out.wav","rb");
 				//if(fd!=NULL){
 				servidor->SendFile(archivowav,servidor->ObtainCSocket());
+				//ELHUYAR included PhoFile and WordFile
+				if (strcmp(pho_file, "null") != 0)
+				{
+					servidor->SendFile(pho_file,servidor->ObtainCSocket());
+				}
+				if (strcmp(wrd_file, "null") != 0)
+				{
+					servidor->SendFile(wrd_file,servidor->ObtainCSocket());
+				}
 				//}
 				//fclose(fd);
 				/*El  hijo cierra el descriptor de cliente y servidor*/

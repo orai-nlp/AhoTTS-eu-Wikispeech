@@ -145,6 +145,15 @@ int main (int argc, char* argv[])
 	//if(fd!=NULL){
 	fprintf(stderr,"Receiving synthesized file\n");
 	cliente->ReceiveFile(outputfile,cliente->ObtainSSocket());
+	//ELHUYAR included PhoFile and WordFile
+	if (strcmp(pho_file, "null") != 0)
+	{
+		cliente->ReceiveFile(pho_file,cliente->ObtainSSocket());
+	}
+	if (strcmp(wrd_file, "null") != 0)
+	{
+		cliente->ReceiveFile(wrd_file,cliente->ObtainSSocket());
+	}
 	//	}
 	//fclose(fd);
 	

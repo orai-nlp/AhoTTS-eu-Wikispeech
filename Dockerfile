@@ -1,20 +1,29 @@
-# Download sttsse/wikispeech_base from hub.docker.com | source repository: https://github.com/stts-se/wikispeech_compose: docker/wikispeech_base
-FROM sttsse/wikispeech_base
+FROM buildpack-deps
+
+############# INITIAL SETUP/INSTALLATION #############
+# setup apt
+RUN apt-get update -y && apt-get upgrade -y && apt-get install apt-utils -y
 
 LABEL "eus.elhuyar.vendor"="Elhuyar Fundazioa - https://www.elhuyar.eus/"
 
-RUN mkdir -p /wikispeech/bin
-WORKDIR "/wikispeech"
-
-##################### INSTALL AhoTTS-eu-Wikispeech #####################
+############# COMPONENT SPECIFIC DEPENDENCIES #############
 RUN apt-get install -y cmake
+RUN apt-get install -y python
 
-RUN git clone https://github.com/Elhuyar/AhoTTS-eu-Wikispeech.git
+############# WIKISPEECH #############
+ENV BASEDIR /wikispeech/AhoTTS-eu-Wikispeech
+WORKDIR $BASEDIR
 
-WORKDIR "/wikispeech/AhoTTS-eu-Wikispeech"
+# local copy of https://github.com/elhuyar/AhoTTS-eu-Wikispeech.git 
+COPY . $BASEDIR
 
-RUN chmod a+x script_compile_all_linux.sh
-RUN ./script_compile_all_linux.sh
+WORKDIR $BASEDIR
+
+RUN sh script_compile_all_linux.sh
+
+RUN mkdir -p $BASEDIR/txt
+RUN mkdir -p $BASEDIR/wav
+
 
 ##################### AFTER INSTALL #####################
 
@@ -31,7 +40,7 @@ RUN echo -n "Git release: " >> $BUILD_INFO_FILE
 RUN cd /wikispeech/AhoTTS-eu-Wikispeech && git describe --tags --always >> $BUILD_INFO_FILE
 
 ## RUNTIME SETTINGS
-WORKDIR "/wikispeech/AhoTTS-eu-Wikispeech"
+WORKDIR $BASEDIR
 EXPOSE 1200
-CMD bin/tts_server -IP=127.0.0.1 -Port=1200
+CMD sh start_ahotts_wikispeech.sh
 
