@@ -239,8 +239,8 @@ UttWS *TextToList::ct2ws(BOOL *flush)
 			switch((ct(p).str)[0]){
 				case '"':
 				case '\'':
-				case '«':
-				case '»':
+				case CS_raquo:
+				case CS_laquo:
 					continue;
 					break;
 				default:
