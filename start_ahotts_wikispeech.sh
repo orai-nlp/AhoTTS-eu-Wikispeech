@@ -1,6 +1,7 @@
 #!/bin/bash
 
-host=`hostname -I | sed 's/ .*//'`
+#host=`hostname -I | sed 's/ .*//'`
+host="127.0.0.1"
 
 python ahotts-httpserver.py $host 1200 1201 &
 status=$?
