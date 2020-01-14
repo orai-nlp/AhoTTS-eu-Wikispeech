@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 #host=`hostname -I | sed 's/ .*//'`
 host="127.0.0.1"
 
