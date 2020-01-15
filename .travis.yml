@@ -36,4 +36,3 @@ script:
  - echo "ahotts started with pid $ahotts_pid"
  - sleep 5
  - python ahotts_testcall.py "test call for ahotts"
- - sh .travis/exit_server_and_fail_if_not_running.sh ahotts $ahotts_pid

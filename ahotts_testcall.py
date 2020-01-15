@@ -19,9 +19,6 @@ if response1.status_code==200:
     
     response2=requests.get("http://" + host + ":" + port + "/ahotts_downloadfile?file="+wavfile)
     if response1.status_code==200:
-        
-        sys.stderr.write("%s\n" % response2)
-        
         print("wav/"+wavfile)
     else:
         print("FAIL", response2)
