@@ -5,7 +5,7 @@ set -e
 #host=`hostname -I | sed 's/ .*//'`
 host="127.0.0.1"
 
-python ahotts-httpserver.py $host 1200 1201 &
+python3 ahotts-httpserver.py $host 1200 1201 &
 status=$?
 if [ $status -ne 0 ]; then
   echo "Failed to start ahotts-httpserver.py: $status"

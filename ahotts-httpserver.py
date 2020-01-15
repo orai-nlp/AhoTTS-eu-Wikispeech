@@ -1,5 +1,6 @@
-import BaseHTTPServer
-import urlparse
+#import BaseHTTPServer
+from http.server import BaseHTTPRequestHandler, HTTPServer
+import urllib.parse
 import hashlib,socket,struct,os,json,sys
 
 def socket_write_filelength_file(tts_socket,filename):
@@ -48,7 +49,7 @@ def socket_read_filelength_file(tts_socket):
 
 
 
-class AhoTTS_HTTPServer(BaseHTTPServer.BaseHTTPRequestHandler):
+class AhoTTS_HTTPServer(BaseHTTPRequestHandler):
 
         def do_GET(self):
                 if "ahotts_downloadfile" in self.path:
@@ -148,6 +149,6 @@ if __name__ == "__main__":
                 address=sys.argv[1]
                 port=sys.argv[2]
                 print('starting server',sys.argv[1],sys.argv[2])
-                BaseHTTPServer.HTTPServer((sys.argv[1],int(sys.argv[2])),AhoTTS_HTTPServer).serve_forever()
+                HTTPServer((sys.argv[1],int(sys.argv[2])),AhoTTS_HTTPServer).serve_forever()
         except KeyboardInterrupt:
                 print('shutting down server')
