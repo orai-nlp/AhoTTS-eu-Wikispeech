@@ -56,7 +56,7 @@ class AhoTTS_HTTPServer(BaseHTTPServer.BaseHTTPRequestHandler):
                         for key,value in dict(urlparse.parse_qsl(self.path.split("?")[1], True)).items():
                                 params[key]=value
                                 wholefilename=params['file']
-                                print "download file: "+wholefilename
+                                print("download file: "+wholefilename)
                                 filename,file_extension=os.path.splitext(wholefilename)
                                 if file_extension=='wav':
                                     self.send_response(200)
@@ -87,7 +87,7 @@ class AhoTTS_HTTPServer(BaseHTTPServer.BaseHTTPRequestHandler):
                                 voice=params['voice'][0]
                                 speed=params['speed'][0]
                                 hashstring=input+'&Lang='+lang+'&Voice='+voice
-                                print "get audio: "+hashstring
+                                print("get audio: "+hashstring)
                                 try:
                                         hash_object=hashlib.md5(hashstring.encode('latin-1'))
                                 except:
@@ -147,7 +147,7 @@ if __name__ == "__main__":
         try:
                 address=sys.argv[1]
                 port=sys.argv[2]
-                print 'starting server',sys.argv[1],sys.argv[2]
+                print('starting server',sys.argv[1],sys.argv[2])
                 BaseHTTPServer.HTTPServer((sys.argv[1],int(sys.argv[2])),AhoTTS_HTTPServer).serve_forever()
         except KeyboardInterrupt:
                 print('shutting down server')
