@@ -8,3 +8,5 @@ wav/
 .cproject
 .settings/
 *~
+.build
+.travis

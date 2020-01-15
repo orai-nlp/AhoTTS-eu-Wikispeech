@@ -13,10 +13,10 @@ notifications:
 env:
  - RELEASE=master
 
-#install:
-# - sudo apt-get install opus-tools
-# - sudo pip install --upgrade pip
-# - pip install -r requirements.txt
+install:
+ - sudo apt-get install opus-tools
+ - sudo pip install --upgrade pip
+ - pip install -r requirements.txt
 
 # command to run tests
 script:
@@ -34,6 +34,6 @@ script:
  - sh start_ahotts_wikispeech.sh &
  - export ahotts_pid=$!
  - echo "ahotts started with pid $ahotts_pid"
- - sleep 20
+ - sleep 5
  - python ahotts_testcall.py "test call for ahotts"
-
+ - sh .travis/exit_server_and_fail_if_not_running.sh ahotts $ahotts_pid
