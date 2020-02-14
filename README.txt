@@ -4,8 +4,11 @@ Text-to-Speech conversor for Basque and Spanish
 
 LICENSE: Read COPYRIGHT_and_LICENSE_code.txt and COPYRIGHT_and_LICENSE_voices.txt
 
-INSTALATION (in linux environments)
+INSTALLATION (in linux environments)
     sh script_compile_all_linux.sh
+
+RUN (in linux environments)
+    sh start_ahotts_wikispeech.sh
 
 FOLDERS:
     libhtts: code of the library
