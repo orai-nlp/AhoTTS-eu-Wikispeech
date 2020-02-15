@@ -1,0 +1,32 @@
+language: python
+python:
+   - "2.7"
+  
+before_install:
+ - set -e
+
+notifications:
+  email:
+    on_success: change
+    on_failure: change
+
+install:
+ - sudo apt-get install opus-tools
+ - sudo pip install --upgrade pip
+ - pip install -r requirements.txt
+
+# command to run tests
+script:
+ - set -e
+ - export basedir=`pwd`
+ 
+ # AHOTTS
+ - cd $basedir
+ - hostname -I
+ - hostname -i
+ - sh script_compile_all_linux.sh && mkdir -p txt wav
+ - sh start_ahotts_wikispeech.sh &
+ - export ahotts_pid=$!
+ - echo "ahotts started with pid $ahotts_pid"
+ - sleep 5
+ - python2 ahotts_testcall.py "test call for ahotts"

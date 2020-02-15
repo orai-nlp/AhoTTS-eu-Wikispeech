@@ -1,13 +1,20 @@
 #!/bin/bash
 
-python ahotts-httpserver.py `hostname -I` 1200 1201 &
+set -e
+
+mkdir -p txt wav
+
+#host=`hostname -I | sed 's/ .*//'`
+host="127.0.0.1"
+
+python2 ahotts-httpserver.py $host 1200 1201 &
 status=$?
 if [ $status -ne 0 ]; then
   echo "Failed to start ahotts-httpserver.py: $status"
   exit $status
 fi
 
-bin/tts_server -IP=`hostname -I` -Port=1201 &
+bin/tts_server -IP=$host -Port=1201 &
 status=$?
 if [ $status -ne 0 ]; then
   echo "Failed to start tts_server: $status"
